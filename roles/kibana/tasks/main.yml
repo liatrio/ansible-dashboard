@@ -5,8 +5,15 @@
     group: ec2-user
     mode: u+rwx,g+rwx
 
+- copy:
+    src: kibana.yml
+    dest: kibana.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g+rw
+
 - name: Build Kibana Image
   shell: docker build -t liatrio-kibana .
 
 - name: Run Kibana container
-  shell: docker run -dp 5601:5601 liatrio-kibana
+  shell: docker run -dp 5601:5601 -name kibana liatrio-kibana
