@@ -16,4 +16,4 @@
   shell: docker build -t liatrio-kibana .
 
 - name: Run Kibana container
-  shell: docker run -dp 5601:5601 -name kibana liatrio-kibana
+  shell: docker run -dp 5601:5601 --name kibana liatrio-kibana
