@@ -1,5 +1,5 @@
 - hosts: kibana
     become: yes
-    become_user: root
     roles:
-        - kibana
+        - role: docker
+        - role: kibana
