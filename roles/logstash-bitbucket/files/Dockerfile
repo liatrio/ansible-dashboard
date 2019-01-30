@@ -9,8 +9,8 @@ USER logstash
 ENV PATH=$PATH:/usr/share/logstash/vendor/jruby/bin/
 RUN gem install bundler
 
-ADD --chown=logstash config /usr/share/logstash/config
-ADD --chown=logstash pipeline /usr/share/logstash/pipeline
+ADD --chown=logstash logstash.yml /usr/share/logstash/config/logstash.yml
+ADD --chown=logstash bitbucket.yml /usr/share/logstash/pipeline/bitbucket.yml
 RUN git clone https://github.com/liatrio/logstash-input-bitbucket.git /usr/share/logstash/plugins/logstash-input-bitbucket
 
 WORKDIR /usr/share/logstash/plugins/logstash-input-bitbucket
@@ -20,7 +20,3 @@ RUN gem build /usr/share/logstash/plugins/logstash-input-bitbucket/logstash-inpu
 WORKDIR /usr/share/logstash
 RUN env
 RUN logstash-plugin install /usr/share/logstash/plugins/logstash-input-bitbucket/logstash-input-bitbucket-*.gem
-
-
-
-COPY bitbucket.yml /usr/share/logstash/config/bitbucket.yml

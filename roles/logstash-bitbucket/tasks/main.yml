@@ -5,15 +5,28 @@
     group: ec2-user
     mode: u+rwx,g+rwx
 
-- template:
+- name: Copy Bitbucket
+  template:
     src: bitbucket.yml.j2
     dest: bitbucket.yml
     owner: ec2-user
     group: ec2-user
     mode: u+rw,g+rw
 
+- name: Copy Logstash conf
+  template:
+    src: logstash_conf.yml.j2
+    dest: logstash.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g+rw
+
 - name: Build Logstash Image
-  shell: docker build -t liatrio-logstash-bitbucket .
+  docker_image:
+      path: .
+      name: liatrio-logstash-bitbucket
 
 - name: Run Kibana container
-  shell: docker run -dp 5044:5044 --name logtash liatrio-logstash-bitbucket
+  docker_container:
+      name: logstash
+      image: liatrio-logstash-bitbucket
