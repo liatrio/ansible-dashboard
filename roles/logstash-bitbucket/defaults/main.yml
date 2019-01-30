@@ -1,0 +1,9 @@
+# default variables
+---
+elasticsearch:
+  host: elasticsearch
+  port: 9200
+
+bitbucket:
+  url: '${BITBUCKET_URL}'
+  token: '${BITBUCKET_TOKEN}'

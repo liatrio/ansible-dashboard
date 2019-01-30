@@ -1,0 +1,17 @@
+- hosts: logstash-bit
+  become: yes
+  roles:
+    - role: docker
+    - role: logstash-bitbucket
+
+- hosts: logstash-jira
+  become: yes
+  roles:
+    - role: docker
+    - role: logstash-jira
+
+- hosts: logstash-jenkins
+  become: yes
+  roles:
+    - role: docker
+    - role: logstash-jenkins

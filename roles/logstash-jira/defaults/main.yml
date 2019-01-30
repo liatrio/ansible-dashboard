@@ -1,0 +1,9 @@
+# default variables
+---
+elasticsearch:
+  host: elasticsearch
+  port: 9200
+
+jira:
+  url: '${JIRA_URL}'
+  creds: '${JIRA_CREDS}'

@@ -1,0 +1,19 @@
+- copy:
+    src: Dockerfile
+    dest: /home/ec2-user/Dockerfile
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rwx,g+rwx
+
+- template:
+    src: jenkins.yml.j2
+    dest: jenkins.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g+rw
+
+- name: Build Logstash Image
+  shell: docker build -t liatrio-logstash-jenkins .
+
+- name: Run Kibana container
+  shell: docker run -dp 9000:9000 --name logtash liatrio-logstash-jenkins

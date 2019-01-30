@@ -1,0 +1,23 @@
+input {
+  bitbucket {
+    schedule => { in => "1st" }
+    hostname => "{{bitbucket.url}}"
+    token => "<{{bitbucket.token}}"
+  }
+}
+
+filter {
+  if [@metadata][index] == "pull_request" {
+    date {
+      match => [ "createdDate", "UNIX", "UNIX_MS" ]
+    }
+  }
+}
+
+output {
+  elasticsearch {
+    index => "%{[@metadata][index]}"
+    document_id => "%{[@metadata][id]}"
+    hosts => ["{{elasticsearch.host}}:{{elasticsearch.port}}"] }
+  stdout { codec => rubydebug }
+}
