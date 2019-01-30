@@ -5,7 +5,7 @@
     group: ec2-user
     mode: u+rwx,g+rwx
 
-- name: Copy Bitbucket
+- name: Copy Bitbucket Pipeline Plugin
   template:
     src: bitbucket.yml.j2
     dest: bitbucket.yml
@@ -13,7 +13,7 @@
     group: ec2-user
     mode: u+rw,g+rw
 
-- name: Copy Logstash conf
+- name: Copy Logstash Configuration File
   template:
     src: logstash_conf.yml.j2
     dest: logstash.yml
@@ -21,12 +21,16 @@
     group: ec2-user
     mode: u+rw,g+rw
 
+- name: Install Docker Package
+  pip:
+    name: docker
+
 - name: Build Logstash Image
   docker_image:
       path: .
       name: liatrio-logstash-bitbucket
 
-- name: Run Kibana container
+- name: Run Logstash-Bitbucket container
   docker_container:
-      name: logstash
+      name: logstash-bitbucket
       image: liatrio-logstash-bitbucket

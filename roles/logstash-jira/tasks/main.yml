@@ -1,19 +1,37 @@
-- copy:
+- name: Copy Docker File 
+  copy:
     src: Dockerfile
     dest: /home/ec2-user/Dockerfile
     owner: ec2-user
     group: ec2-user
     mode: u+rwx,g+rwx
 
-- template:
+- name: Copy Jira Pipeline Plugin
+  template:
     src: jira.yml.j2
     dest: jira.yml
     owner: ec2-user
     group: ec2-user
     mode: u+rw,g+rw
 
-- name: Build Logstash Image
-  shell: docker build -t liatrio-logstash-jira .
+- name: Copy Logstash Configuration file
+  template:
+    src: logstash_conf.yml.j2
+    dest: logstash.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g+rw
 
-- name: Run Kibana container
-  shell: docker run -dp 5045:5045 --name logtash liatrio-logstash-jira
+- name: Install Docker Package
+  pip:
+    name: docker
+
+- name: Build Logstash Image
+  docker_image:
+      path: .
+      name: liatrio-logstash-jira
+
+- name: Run Logstash-Jira container
+  docker_container:
+      name: logstash-jira
+      image: liatrio-logstash-jira
