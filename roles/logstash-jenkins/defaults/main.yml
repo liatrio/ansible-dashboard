@@ -3,3 +3,8 @@
 elasticsearch:
   host: elasticsearch
   port: 9200
+
+tcp_listener:
+  port: 9000
+
+private_interface: 127.0.0.1

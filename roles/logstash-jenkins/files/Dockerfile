@@ -2,7 +2,6 @@ FROM docker.elastic.co/logstash/logstash:6.5.4
 
 EXPOSE 9000
 
-ADD --chown=logstash config /usr/share/logstash/config
-ADD --chown=logstash pipeline /usr/share/logstash/pipeline
+ADD --chown=logstash logstash.yml /usr/share/logstash/config/logstash.yml
+ADD --chown=logstash jenkins.yml /usr/share/logstash/pipeline/jenkins.yml
 
-COPY jenkins.yml /usr/share/logstash/config/jenkins.yml

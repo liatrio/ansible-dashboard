@@ -1,6 +1,6 @@
 input {
   tcp {
-    port => 9000
+    port => {{tcp_listener.port}}
     codec => json
   }
 }

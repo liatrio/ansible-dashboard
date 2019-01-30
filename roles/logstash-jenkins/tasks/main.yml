@@ -1,19 +1,39 @@
-- copy:
+- name: Copy dockerfile
+  copy:
     src: Dockerfile
     dest: /home/ec2-user/Dockerfile
     owner: ec2-user
     group: ec2-user
     mode: u+rwx,g+rwx
 
-- template:
+- name: Copy Jenkins Pipeline File
+  template:
     src: jenkins.yml.j2
     dest: jenkins.yml
     owner: ec2-user
     group: ec2-user
     mode: u+rw,g+rw
 
-- name: Build Logstash Image
-  shell: docker build -t liatrio-logstash-jenkins .
+- name: Copy Logstash Configuration File
+  template:
+    src: logstash_conf.yml.j2
+    dest: logstash.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g+rw
 
-- name: Run Kibana container
-  shell: docker run -dp 9000:9000 --name logtash liatrio-logstash-jenkins
+- name: Install Docker Package
+  pip:
+    name: docker
+
+- name: Build Logstash Image
+  docker_image:
+      path: .
+      name: liatrio-logstash-jenkins
+
+- name: Run Logstash-Jenkins Container
+  docker_container:
+      name: logstash-jenkins
+      image: liatrio-logstash-jenkins
+      ports: 
+        - "{{private_interface}}:9000:9000"
