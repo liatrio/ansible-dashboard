@@ -5,15 +5,26 @@
     group: ec2-user
     mode: u+rwx,g+rwx
 
-- template:
-    src: kibana.yml.j2
-    dest: kibana.yml
+- name : Copy Grafana Config
+  template:
+    src: defaults.ini.j2
+    dest: defaults.ini
     owner: ec2-user
     group: ec2-user
-    mode: u+rw,g+rw
+    mode: u+rwx,g+rwx
 
-- name: Build Kibana Image
-  shell: docker build -t liatrio-kibana .
+- name: Install Docker Package
+  pip:
+    name: docker
 
-- name: Run Kibana container
-  shell: docker run -dp 5601:5601 --name kibana liatrio-kibana
+- name: Build grafana Image
+  docker_image:
+      path: .
+      name: grafana-image
+
+- name: Run grafana container
+  docker_container:
+      name: grafana
+      image: grafana-image
+      ports:
+        - "3000:3000"

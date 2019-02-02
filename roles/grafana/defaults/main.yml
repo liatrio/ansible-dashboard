@@ -1,5 +1,5 @@
 # default variables
 ---
-elasticsearch:
-  host: elasticsearch
-  port: 9200
+grafana:
+  username: "admin"
+  password: "admin"
